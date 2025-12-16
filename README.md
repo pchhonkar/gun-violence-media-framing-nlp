@@ -16,7 +16,7 @@ hw5-NLP/
 ├── outputs/
 │   ├── processed/                         # CSV, JSONL, JSON data files
 │   ├── figures/                           # PNG visualizations
-│   └── reports/                           # Markdown documentation + logs
+│   └── reports/                           # Markdown documentation
 ├── src/
 │   ├── __init__.py
 │   ├── config.py                          # Configuration and paths
@@ -27,8 +27,7 @@ hw5-NLP/
 │   ├── embed_cluster.py                   # Task 3: Embedding + clustering
 │   ├── manual_eval_helpers.py             # Task 4: Manual evaluation + refinement
 │   ├── task5_frequency_analysis.py        # Task 5: Frequency/proportion tables
-│   ├── task6_chi_square.py                # Task 6: Chi-squared hypothesis tests
-│   └── run_all.py                         # End-to-end pipeline runner
+│   └── task6_chi_square.py                # Task 6: Chi-squared hypothesis tests
 ├── requirements.txt
 └── README.md
 ```
@@ -55,12 +54,6 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-### Optional: Transformer-based spaCy model
-
-```bash
-python -m spacy download en_core_web_trf
-```
-
 ### Sanity Check
 
 ```bash
@@ -71,20 +64,7 @@ python -c "import spacy, pandas, sentence_transformers, sklearn, scipy, matplotl
 
 ## Running the Pipeline
 
-### End-to-End (Recommended)
-
-```bash
-# Run all tasks (skips steps if outputs already exist)
-python -m src.run_all
-
-# Force re-run all tasks
-python -m src.run_all --force
-
-# Skip Task 4 (manual refinement)
-python -m src.run_all --skip-task4
-```
-
-### Individual Tasks
+Run each task in order from the project root directory:
 
 ```bash
 # Task 1a: Load articles into DataFrame
@@ -176,12 +156,6 @@ python -m src.task6_chi_square
 | `outputs/figures/task6_observed_vs_expected_shooter_2.png` | Observed vs Expected plot |
 | `outputs/figures/task6_observed_vs_expected_shooter_3.png` | Observed vs Expected plot |
 
-### Pipeline Log
-
-| File | Description |
-|------|-------------|
-| `outputs/reports/run_all_log_YYYYMMDD_HHMMSS.txt` | Timestamped execution log |
-
 ---
 
 ## Verification Checks
@@ -204,11 +178,6 @@ import pandas as pd
 p = pd.read_csv('outputs/processed/proportion_table_victim.csv', index_col=0)
 print('Column sums:', p.sum().round(1).to_dict())  # Each ~100
 "
-
-# Task 6 should produce 1 CSV + 1 MD + 6 PNG files
-ls outputs/processed/task6_chi_square_results.csv
-ls outputs/reports/task6_results.md
-ls outputs/figures/task6_observed_vs_expected_*.png | wc -l  # Should be 6
 ```
 
 ---

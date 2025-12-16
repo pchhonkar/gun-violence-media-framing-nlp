@@ -1,228 +1,274 @@
 {
-  "metadata": {
-    "description": "Manual cluster refinement mapping for Task 4 - Expanded",
-    "created_for": "HW5 NLP Pipeline",
-    "notes": "Maps description_phrase patterns to refined cluster labels"
-  },
-  "shooter_refinements": {
-    "identity_labels": {
-      "new_label": "Shooter identity labels",
-      "patterns": [
-        "a gunman",
-        "the gunman",
-        "gunman",
-        "the shooter",
-        "a shooter",
-        "shooter",
-        "the suspect",
-        "a suspect",
-        "suspect",
-        "the perpetrator",
-        "perpetrator",
-        "the attacker",
-        "attacker",
-        "the assailant",
-        "assailant",
-        "old gunman",
-        "the 18-year-old gunman",
-        "an 18-year-old gunman",
-        "the 18-year-old shooter",
-        "18-year-old gunman",
-        "18-year-old shooter",
-        "identified gunman",
-        "the now-deceased gunman",
-        "now-deceased gunman",
-        "year-old gunman",
-        "year-old shooter",
-        "the gunman salvador",
-        "gunman salvador"
-      ],
-      "pattern_type": "contains_lower"
+    "metadata": {
+      "description": "Manual cluster refinement mapping for Task 4 - Expanded (Updated)",
+      "created_for": "HW5 NLP Pipeline",
+      "notes": "Maps description_phrase patterns to refined cluster labels. Updated to remove remaining 'Cluster 1: gunman' and re-route leftover 'Age references' items into the correct refined labels.",
+      "last_update": "2025-12-16"
     },
-    "alleged_suspected": {
-      "new_label": "Alleged/suspected shooter framing",
-      "patterns": [
-        "alleged",
-        "suspected",
-        "accused",
-        "identified suspect",
-        "the shooting suspect",
-        "shooting suspect"
-      ],
-      "pattern_type": "contains_lower"
+    "shooter_refinements": {
+      "identity_labels": {
+        "new_label": "Shooter identity labels",
+        "patterns": [
+          "a gunman",
+          "the gunman",
+          "gunman",
+          "the shooter",
+          "a shooter",
+          "shooter",
+          "the suspect",
+          "a suspect",
+          "suspect",
+          "the perpetrator",
+          "perpetrator",
+          "the attacker",
+          "attacker",
+          "the assailant",
+          "assailant",
+          "old gunman",
+          "the 18-year-old gunman",
+          "an 18-year-old gunman",
+          "the 18-year-old shooter",
+          "18-year-old gunman",
+          "18-year-old shooter",
+          "identified gunman",
+          "the now-deceased gunman",
+          "now-deceased gunman",
+          "year-old gunman",
+          "year-old shooter",
+          "the gunman salvador",
+          "gunman salvador"
+        ],
+        "pattern_type": "contains_lower"
+      },
+      "alleged_suspected": {
+        "new_label": "Alleged/suspected shooter framing",
+        "patterns": [
+          "alleged",
+          "suspected",
+          "accused",
+          "identified suspect",
+          "the shooting suspect",
+          "shooting suspect"
+        ],
+        "pattern_type": "contains_lower"
+      },
+      "harm_severity_shooter": {
+        "new_label": "Harm severity",
+        "patterns": [
+          "deceased suspect",
+          "the deceased suspect",
+          "the now-deceased suspect",
+          "a now-deceased suspect",
+          "now-deceased suspect",
+          "killed suspect",
+          "fatally shot suspect",
+          "killed shooter",
+          "killed mass shooter",
+          "dead shooter",
+          "dead gunman",
+          "dead suspect"
+        ],
+        "pattern_type": "contains_lower"
+      },
+      "active_threat": {
+        "new_label": "Active threat framing",
+        "patterns": [
+          "active shooter"
+        ],
+        "pattern_type": "contains_lower"
+      },
+  
+      "child_harm_shooter": {
+        "new_label": "Child victim harm framing",
+        "patterns": [
+          "killed kids",
+          "killed children",
+          "fatally shot children",
+          "shot children",
+          "shot kids",
+          "murdered children",
+          "murdered kids",
+          "slain children",
+          "slain kids",
+          "killing kids",
+          "killing children",
+          "killing 19 children",
+          "killing19 children",
+          "to kill school children",
+          "kill school children",
+          "killing school children",
+          "left children dead",
+          "dead children",
+          "dead kids"
+        ],
+        "pattern_type": "contains_lower"
+      },
+  
+      "action_descriptions_shooter": {
+        "new_label": "Action descriptions",
+        "patterns": [
+          "fatally shot people"
+        ],
+        "pattern_type": "contains_lower"
+      },
+  
+      "event_noise": {
+        "new_label": "Noise/Unclustered",
+        "patterns": [
+          "a shooting",
+          "the shooting",
+          "shooting incident",
+          "a shooting incident",
+          "the shooting incident",
+          "the mass shooting",
+          "a mass shooting",
+          "mass shooting minutes",
+          "the mass shooter",
+          "many other mass shooters",
+          "so many other mass shooters",
+          "every mass shooter",
+          "active school-shooter events",
+          "school-shooter events",
+          "other mass shooters"
+        ],
+        "pattern_type": "contains_lower"
+      },
+      "malformed_noise": {
+        "new_label": "Noise/Unclustered",
+        "patterns": [
+          "old gunman grandmother",
+          "gunman grandmother",
+          "gunman intentions",
+          "gunman who",
+          "shooter who",
+          "suspect who",
+          "bureaudefined shooter",
+          "bureaudefined",
+          "the shooter belong",
+          "shooter belong",
+          "confronted shooter belong",
+          "confronted shooter",
+          "had shot grandmother",
+          "shot grandmother",
+          "described gunman",
+          "the shots",
+          "shots rang",
+          "shooter old salvador ramos",
+          "now-deceased suspect salvador ramos",
+          "to have shot shooter salvador ramos",
+          "shot shooter salvador",
+          "the shooter 18-year-old salvador ramos",
+          "shooter 18-year-old salvador"
+        ],
+        "pattern_type": "contains_lower"
+      }
     },
-    "harm_severity_shooter": {
-      "new_label": "Harm severity",
-      "patterns": [
-        "deceased suspect",
-        "the deceased suspect",
-        "the now-deceased suspect",
-        "a now-deceased suspect",
-        "now-deceased suspect",
-        "killed suspect",
-        "fatally shot suspect",
-        "killed shooter",
-        "killed mass shooter",
-        "dead shooter",
-        "dead gunman",
-        "dead suspect"
-      ],
-      "pattern_type": "contains_lower"
+    "victim_refinements": {
+      "child_harm": {
+        "new_label": "Child victim harm framing",
+        "patterns": [
+          "killed kids",
+          "killed children",
+          "killing kids",
+          "killing children",
+          "shot children",
+          "shot kids",
+          "fatally shot children",
+          "murdered children",
+          "murdered kids",
+          "slain children",
+          "left children",
+          "dead children",
+          "dead kids",
+          "killing19 children",
+          "killing 19 children",
+          "ultimately killing19",
+          "ultimately killing 19",
+          "to kill school children",
+          "kill school children",
+          "killing school children"
+        ],
+        "pattern_type": "contains_lower",
+        "source_cluster_contains": ""
+      },
+      "age_count": {
+        "new_label": "Victim age & count framing",
+        "patterns": [
+          "nineteen children",
+          "eighteen children",
+          "19 school children",
+          "14 elementary school students",
+          "16 schoolchildren",
+          "19 more children",
+          "more children",
+          "young children",
+          "a child",
+          "the children",
+          "the child",
+          "school children",
+          "elementary school students",
+          "elementary students",
+  
+          "ultimately 19 children",
+          "the 19 children",
+          "children old",
+          "years old",
+          "between 6 and 7 years old",
+          "has child envisions",
+          "has a child envisions"
+        ],
+        "pattern_type": "contains_lower",
+        "source_cluster_contains": ""
+      },
+      "age_count_regex": {
+        "new_label": "Victim age & count framing",
+        "patterns": [
+          "^\\d+\\s*(children|students|kids|people|victims|teachers|adults)",
+          "^at least \\d+",
+          "^more than \\d+",
+          "^about \\d+",
+          "^some \\d+",
+          "^two\\s+",
+          "^three\\s+",
+          "^four\\s+",
+          "^five\\s+",
+          "^six\\s+",
+          "^seven\\s+",
+          "^eight\\s+",
+          "^nine\\s+",
+          "^ten\\s+",
+          "^eleven\\s+",
+          "^twelve\\s+",
+          "^thirteen\\s+",
+          "^fourteen\\s+",
+          "^fifteen\\s+",
+          "^sixteen\\s+",
+          "^seventeen\\s+",
+          "^eighteen\\s+",
+          "^nineteen\\s+",
+          "^twenty\\s+"
+        ],
+        "pattern_type": "regex_lower",
+        "source_cluster_contains": ""
+      },
+      "shooter_in_victim_noise": {
+        "new_label": "Noise/Unclustered",
+        "patterns": [
+          "the shooter",
+          "shooter",
+          "salvador ramos",
+          "shot shooter",
+          "the gunman"
+        ],
+        "pattern_type": "contains_lower",
+        "source_cluster_contains": ""
+      }
     },
-    "active_threat": {
-      "new_label": "Active threat framing",
-      "patterns": [
-        "active shooter"
-      ],
-      "pattern_type": "contains_lower"
-    },
-    "event_noise": {
-      "new_label": "Noise/Unclustered",
-      "patterns": [
-        "a shooting",
-        "the shooting",
-        "shooting incident",
-        "a shooting incident",
-        "the shooting incident",
-        "the mass shooting",
-        "a mass shooting",
-        "mass shooting minutes",
-        "the mass shooter",
-        "many other mass shooters",
-        "so many other mass shooters",
-        "every mass shooter",
-        "active school-shooter events",
-        "school-shooter events",
-        "other mass shooters"
-      ],
-      "pattern_type": "contains_lower"
-    },
-    "malformed_noise": {
-      "new_label": "Noise/Unclustered",
-      "patterns": [
-        "old gunman grandmother",
-        "gunman grandmother",
-        "gunman intentions",
-        "gunman who",
-        "shooter who",
-        "suspect who",
-        "bureaudefined shooter",
-        "bureaudefined",
-        "the shooter belong",
-        "shooter belong",
-        "confronted shooter belong",
-        "confronted shooter",
-        "had shot grandmother",
-        "shot grandmother",
-        "described gunman",
-        "the shots",
-        "shots rang",
-        "shooter old salvador ramos",
-        "now-deceased suspect salvador ramos",
-        "to have shot shooter salvador ramos",
-        "shot shooter salvador",
-        "the shooter 18-year-old salvador ramos",
-        "shooter 18-year-old salvador"
-      ],
-      "pattern_type": "contains_lower"
-    }
-  },
-  "victim_refinements": {
-    "child_harm": {
-      "new_label": "Child victim harm framing",
-      "patterns": [
-        "killed kids",
-        "killed children",
-        "killing kids",
-        "killing children",
-        "shot children",
-        "shot kids",
-        "fatally shot children",
-        "murdered children",
-        "murdered kids",
-        "slain children",
-        "left children",
-        "dead children",
-        "dead kids",
-        "killing19 children",
-        "killing 19 children",
-        "ultimately killing19",
-        "ultimately killing 19",
-        "to kill school children",
-        "kill school children",
-        "killing school children"
-      ],
-      "pattern_type": "contains_lower",
-      "source_cluster_contains": ""
-    },
-    "age_count": {
-      "new_label": "Victim age & count framing",
-      "patterns": [
-        "nineteen children",
-        "eighteen children",
-        "19 school children",
-        "14 elementary school students",
-        "16 schoolchildren",
-        "19 more children",
-        "young children",
-        "a child",
-        "the children",
-        "the child",
-        "school children",
-        "elementary school students",
-        "elementary students"
-      ],
-      "pattern_type": "contains_lower",
-      "source_cluster_contains": ""
-    },
-    "age_count_regex": {
-      "new_label": "Victim age & count framing",
-      "patterns": [
-        "^\\d+\\s*(children|students|kids|people|victims|teachers|adults)",
-        "^at least \\d+",
-        "^more than \\d+",
-        "^about \\d+",
-        "^some \\d+",
-        "^two\\s+",
-        "^three\\s+",
-        "^four\\s+",
-        "^five\\s+",
-        "^six\\s+",
-        "^seven\\s+",
-        "^eight\\s+",
-        "^nine\\s+",
-        "^ten\\s+",
-        "^eleven\\s+",
-        "^twelve\\s+",
-        "^thirteen\\s+",
-        "^fourteen\\s+",
-        "^fifteen\\s+",
-        "^sixteen\\s+",
-        "^seventeen\\s+",
-        "^eighteen\\s+",
-        "^nineteen\\s+",
-        "^twenty\\s+"
-      ],
-      "pattern_type": "regex_lower",
-      "source_cluster_contains": ""
-    },
-    "shooter_in_victim_noise": {
-      "new_label": "Noise/Unclustered",
-      "patterns": [
-        "the shooter",
-        "shooter",
-        "salvador ramos",
-        "shot shooter",
-        "the gunman"
-      ],
-      "pattern_type": "contains_lower",
-      "source_cluster_contains": ""
-    }
-  },
-  "preserved_clusters": [
-    "Harm severity",
-    "Legal/process framing",
-    "Violence/action",
-    "Weapon references"
-  ]
-}
+    "preserved_clusters": [
+      "Harm severity",
+      "Legal/process framing",
+      "Violence/action",
+      "Weapon references"
+    ]
+  }
+  
