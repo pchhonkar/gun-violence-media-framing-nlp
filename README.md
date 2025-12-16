@@ -40,8 +40,6 @@ hw5-NLP/
 │   ├── freq_tables.py                 # (Legacy) frequency tables
 │   ├── stats_tests.py                 # (Legacy) statistical tests
 │   └── run_all.py                     # Run full pipeline (Tasks 1-3)
-├── notebooks/
-│   └── 01_end_to_end.ipynb            # Interactive notebook
 ├── requirements.txt
 └── README.md
 ```
