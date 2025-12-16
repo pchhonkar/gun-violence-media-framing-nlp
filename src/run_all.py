@@ -15,7 +15,7 @@ Usage:
     python -m src.run_all --force        # Re-run all steps even if outputs exist
     python -m src.run_all --skip-task4   # Skip manual refinement step
 
-Saves logs to outputs/reports/run_log.txt
+Saves timestamped log to outputs/reports/run_all_log_YYYYMMDD_HHMMSS.txt
 """
 
 import argparse
@@ -24,7 +24,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Dict, Any
 
 # Import config for paths
 try:
@@ -37,138 +37,206 @@ except ImportError:
 # PIPELINE CONFIGURATION
 # =============================================================================
 
-PIPELINE_STEPS = [
-    {
-        "name": "Task 1a: Load Articles",
-        "module": "src.load_articles",
-        "expected_outputs": [
-            "outputs/processed/articles_master.csv",
-        ],
-        "skip_flag": None,
-    },
-    {
-        "name": "Task 1b: Coreference & Context Extraction",
-        "module": "src.coref_contexts",
-        "expected_outputs": [
-            "outputs/processed/contexts_victims.jsonl",
-            "outputs/processed/contexts_shooters.jsonl",
-            "outputs/reports/task1_doc.md",
-        ],
-        "skip_flag": None,
-    },
-    {
-        "name": "Task 2: Extract Descriptions",
-        "module": "src.extract_descriptions",
-        "expected_outputs": [
-            "outputs/processed/descriptions.csv",
-            "outputs/processed/descriptions_raw.csv",
-            "outputs/reports/task2_rationale.md",
-        ],
-        "skip_flag": None,
-    },
-    {
-        "name": "Task 3: Embedding & Clustering",
-        "module": "src.embed_cluster",
-        "expected_outputs": [
-            "outputs/processed/descriptions_with_clusters.csv",
-            "outputs/processed/cluster_summary.csv",
-            "outputs/figures/umap_clusters_victim.png",
-            "outputs/figures/umap_clusters_shooter.png",
-            "outputs/reports/task3_doc.md",
-            "outputs/reports/dbscan_tuning.md",
-        ],
-        "skip_flag": None,
-    },
-    {
-        "name": "Task 4: Manual Evaluation & Refinement",
-        "module": "src.manual_eval_helpers",
-        "expected_outputs": [
-            "outputs/reports/task4_manual_eval.md",
-            "outputs/processed/cluster_refinement_map.json",
-            "outputs/processed/descriptions_with_clusters_refined.csv",
-        ],
-        "skip_flag": "skip_task4",
-    },
-    {
-        "name": "Task 5: Frequency Analysis",
-        "module": "src.task5_frequency_analysis",
-        "expected_outputs": [
-            "outputs/processed/frequency_table_victim.csv",
-            "outputs/processed/frequency_table_shooter.csv",
-            "outputs/processed/proportion_table_victim.csv",
-            "outputs/processed/proportion_table_shooter.csv",
-            "outputs/figures/task5_heatmap_victim.png",
-            "outputs/figures/task5_heatmap_shooter.png",
-            "outputs/figures/task5_bar_top6_victim.png",
-            "outputs/figures/task5_bar_top6_shooter.png",
-            "outputs/reports/task5_doc.md",
-        ],
-        "skip_flag": None,
-    },
-    {
-        "name": "Task 6: Chi-Square Hypothesis Testing",
-        "module": "src.task6_chi_square",
-        "expected_outputs": [
-            "outputs/processed/task6_chi_square_results.csv",
-            "outputs/reports/task6_results.md",
-        ],
-        "skip_flag": None,
-    },
-]
+def get_pipeline_steps() -> List[Dict[str, Any]]:
+    """
+    Get pipeline step configurations using config paths.
+    Returns list of step dictionaries with Path objects for expected outputs.
+    """
+    return [
+        {
+            "name": "Task 1a: Load Articles",
+            "module": "src.load_articles",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "articles_master.csv",
+            ],
+            "skip_flag": None,
+        },
+        {
+            "name": "Task 1b: Coreference & Context Extraction",
+            "module": "src.coref_contexts",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "contexts_victims.jsonl",
+                config.PROCESSED_DIR / "contexts_shooters.jsonl",
+                config.REPORTS_DIR / "task1_doc.md",
+            ],
+            "skip_flag": None,
+        },
+        {
+            "name": "Task 2: Extract Descriptions",
+            "module": "src.extract_descriptions",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "descriptions.csv",
+                config.PROCESSED_DIR / "descriptions_raw.csv",
+                config.REPORTS_DIR / "task2_rationale.md",
+            ],
+            "skip_flag": None,
+        },
+        {
+            "name": "Task 3: Embedding & Clustering",
+            "module": "src.embed_cluster",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "descriptions_with_clusters.csv",
+                config.PROCESSED_DIR / "cluster_summary.csv",
+                config.FIGURES_DIR / "umap_clusters_victim.png",
+                config.FIGURES_DIR / "umap_clusters_shooter.png",
+                config.REPORTS_DIR / "task3_doc.md",
+                config.REPORTS_DIR / "dbscan_tuning.md",
+            ],
+            "skip_flag": None,
+        },
+        {
+            "name": "Task 4: Manual Evaluation & Refinement",
+            "module": "src.manual_eval_helpers",
+            "expected_outputs": [
+                config.REPORTS_DIR / "task4_manual_eval.md",
+                config.PROCESSED_DIR / "cluster_refinement_map.json",
+                config.PROCESSED_DIR / "descriptions_with_clusters_refined.csv",
+            ],
+            "skip_flag": "skip_task4",
+        },
+        {
+            "name": "Task 5: Frequency Analysis",
+            "module": "src.task5_frequency_analysis",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "frequency_table_victim.csv",
+                config.PROCESSED_DIR / "frequency_table_shooter.csv",
+                config.PROCESSED_DIR / "proportion_table_victim.csv",
+                config.PROCESSED_DIR / "proportion_table_shooter.csv",
+                config.FIGURES_DIR / "task5_heatmap_victim.png",
+                config.FIGURES_DIR / "task5_heatmap_shooter.png",
+                config.FIGURES_DIR / "task5_bar_top6_victim.png",
+                config.FIGURES_DIR / "task5_bar_top6_shooter.png",
+                config.REPORTS_DIR / "task5_doc.md",
+            ],
+            "skip_flag": None,
+        },
+        {
+            "name": "Task 6: Chi-Square Hypothesis Testing",
+            "module": "src.task6_chi_square",
+            "expected_outputs": [
+                config.PROCESSED_DIR / "task6_chi_square_results.csv",
+                config.REPORTS_DIR / "task6_results.md",
+            ],
+            "skip_flag": None,
+        },
+    ]
 
 
 # =============================================================================
 # LOGGING
 # =============================================================================
 
-class Logger:
-    """Logger that writes to both console and file."""
+class PipelineLogger:
+    """Logger that writes to both console (short) and file (full)."""
     
-    def __init__(self, log_path: Path):
-        self.log_path = log_path
+    def __init__(self):
+        # Create timestamped log file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.log_filename = f"run_all_log_{timestamp}.txt"
+        self.log_path = config.REPORTS_DIR / self.log_filename
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
-        self.buffer = []
+        
+        # Initialize log file
+        self.log_buffer: List[str] = []
+        self._write_header()
     
-    def log(self, message: str, newline: bool = True):
-        """Log a message to console and buffer."""
-        if newline:
-            print(message)
-            self.buffer.append(message + "\n")
-        else:
-            print(message, end="")
-            self.buffer.append(message)
+    def _write_header(self):
+        """Write log file header."""
+        self._log_to_file("=" * 80)
+        self._log_to_file("HW5 NLP PIPELINE - EXECUTION LOG")
+        self._log_to_file("=" * 80)
+        self._log_to_file(f"Log file: {self.log_path}")
+        self._log_to_file(f"Created: {self.timestamp()}")
+        self._log_to_file(f"Python: {sys.executable}")
+        self._log_to_file(f"Version: {sys.version}")
+        self._log_to_file(f"Working directory: {Path.cwd()}")
+        self._log_to_file("=" * 80)
+        self._log_to_file("")
     
     def timestamp(self) -> str:
         """Get current timestamp string."""
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
+    def _log_to_file(self, message: str):
+        """Add message to log buffer."""
+        self.log_buffer.append(message + "\n")
+    
+    def console(self, message: str):
+        """Print to console only."""
+        print(message)
+    
+    def log(self, message: str, console: bool = True):
+        """Log to file and optionally to console."""
+        self._log_to_file(message)
+        if console:
+            print(message)
+    
+    def log_step_start(self, step_name: str, module: str, command: List[str]):
+        """Log step start details."""
+        self._log_to_file("")
+        self._log_to_file("-" * 80)
+        self._log_to_file(f"STEP: {step_name}")
+        self._log_to_file("-" * 80)
+        self._log_to_file(f"Module: {module}")
+        self._log_to_file(f"Command: {' '.join(command)}")
+        self._log_to_file(f"Start time: {self.timestamp()}")
+        self._log_to_file("")
+    
+    def log_step_output(self, stdout: str, stderr: str):
+        """Log full stdout and stderr (not truncated)."""
+        if stdout:
+            self._log_to_file("--- STDOUT ---")
+            self._log_to_file(stdout)
+        if stderr:
+            self._log_to_file("--- STDERR ---")
+            self._log_to_file(stderr)
+    
+    def log_step_end(self, status: str, duration: float, end_time: str):
+        """Log step completion details."""
+        self._log_to_file("")
+        self._log_to_file(f"End time: {end_time}")
+        self._log_to_file(f"Duration: {duration:.2f} seconds")
+        self._log_to_file(f"Status: {status}")
+        self._log_to_file("-" * 80)
+    
+    def log_missing_outputs(self, missing: List[Path]):
+        """Log missing output files."""
+        if missing:
+            self._log_to_file("")
+            self._log_to_file("WARNING: Missing expected outputs:")
+            for path in missing:
+                self._log_to_file(f"  - {path}")
+    
     def save(self):
         """Save log buffer to file."""
         with open(self.log_path, 'w', encoding='utf-8') as f:
-            f.writelines(self.buffer)
+            f.writelines(self.log_buffer)
+        return self.log_path
 
 
 # =============================================================================
 # HELPER FUNCTIONS
 # =============================================================================
 
-def check_outputs_exist(expected_outputs: List[str], project_root: Path) -> Tuple[bool, List[str]]:
+def check_outputs_exist(expected_outputs: List[Path]) -> Tuple[bool, List[Path]]:
     """
     Check if expected output files exist.
+    
+    Args:
+        expected_outputs: List of Path objects for expected files
     
     Returns:
         Tuple of (all_exist, missing_files)
     """
-    missing = []
-    for output in expected_outputs:
-        path = project_root / output
+    missing: List[Path] = []
+    for path in expected_outputs:
         if not path.exists():
-            missing.append(output)
+            missing.append(path)
     
     return len(missing) == 0, missing
 
 
-def run_module(module: str, logger: Logger) -> Tuple[bool, str]:
+def run_module(module: str, logger: PipelineLogger) -> Tuple[bool, str, str]:
     """
     Run a Python module using subprocess.
     
@@ -177,27 +245,23 @@ def run_module(module: str, logger: Logger) -> Tuple[bool, str]:
         logger: Logger instance
     
     Returns:
-        Tuple of (success, output/error message)
+        Tuple of (success, stdout, stderr)
     """
     cmd = [sys.executable, "-m", module]
-    logger.log(f"  Command: {' '.join(cmd)}")
+    logger.log_step_start(module, module, cmd)
     
     try:
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            check=True,
-            env={**dict(__import__('os').environ), 'PYTHONUNBUFFERED': '1'}
+            check=True
         )
-        return True, result.stdout + result.stderr
+        return True, result.stdout, result.stderr
     except subprocess.CalledProcessError as e:
-        error_msg = f"Exit code: {e.returncode}\n"
-        error_msg += f"STDOUT:\n{e.stdout}\n" if e.stdout else ""
-        error_msg += f"STDERR:\n{e.stderr}\n" if e.stderr else ""
-        return False, error_msg
+        return False, e.stdout or "", e.stderr or ""
     except Exception as e:
-        return False, f"Exception: {type(e).__name__}: {e}"
+        return False, "", f"Exception: {type(e).__name__}: {e}"
 
 
 # =============================================================================
@@ -216,145 +280,188 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
         Exit code (0 for success, 1 for failure)
     """
     # Setup
-    project_root = Path(__file__).parent.parent
-    log_path = project_root / "outputs" / "reports" / "run_log.txt"
-    logger = Logger(log_path)
+    logger = PipelineLogger()
     
     # Ensure output directories exist
     config.ensure_output_dirs()
     
-    # Header
-    logger.log("=" * 70)
-    logger.log("HW5 NLP PIPELINE - FULL EXECUTION")
-    logger.log("=" * 70)
-    logger.log(f"Started at: {logger.timestamp()}")
-    logger.log(f"Python: {sys.executable}")
-    logger.log(f"Version: {sys.version.split()[0]}")
-    logger.log(f"Working directory: {project_root}")
-    logger.log(f"Options: force={force}, skip_task4={skip_task4}")
-    logger.log("=" * 70)
+    # Console header
+    logger.console("")
+    logger.console("=" * 70)
+    logger.console("HW5 NLP PIPELINE - FULL EXECUTION")
+    logger.console("=" * 70)
+    logger.console(f"Started: {logger.timestamp()}")
+    logger.console(f"Options: force={force}, skip_task4={skip_task4}")
+    logger.console(f"Log file: {logger.log_path}")
+    logger.console("=" * 70)
+    
+    # Log options
+    logger._log_to_file(f"Options: force={force}, skip_task4={skip_task4}")
+    logger._log_to_file("")
     
     pipeline_start = time.time()
     
-    # Track results
-    results: List[Tuple[str, str, float]] = []  # (step_name, status, duration)
+    # Get pipeline steps
+    pipeline_steps = get_pipeline_steps()
+    
+    # Track results: (step_name, status, duration, missing_outputs)
+    results: List[Tuple[str, str, float, List[Path]]] = []
+    all_missing_outputs: List[Path] = []
     
     # Run each step
-    for step_config in PIPELINE_STEPS:
+    for step_config in pipeline_steps:
         step_name = step_config["name"]
         module = step_config["module"]
-        expected_outputs = step_config["expected_outputs"]
+        expected_outputs: List[Path] = step_config["expected_outputs"]
         skip_flag = step_config["skip_flag"]
         
-        logger.log("")
-        logger.log("-" * 70)
-        logger.log(f"STEP: {step_name}")
-        logger.log(f"Module: {module}")
-        logger.log(f"Timestamp: {logger.timestamp()}")
-        logger.log("-" * 70)
+        logger.console("")
+        logger.console(f"[{logger.timestamp()}] {step_name}")
         
         step_start = time.time()
         
         # Check if step should be skipped via flag
         if skip_flag == "skip_task4" and skip_task4:
             duration = time.time() - step_start
-            logger.log(f"  STATUS: SKIPPED (--skip-task4 flag)")
-            results.append((step_name, "SKIPPED (flag)", duration))
+            status = "SKIPPED (--skip-task4)"
+            logger.console(f"  → {status}")
+            logger._log_to_file("")
+            logger._log_to_file(f"STEP: {step_name}")
+            logger._log_to_file(f"Status: {status}")
+            results.append((step_name, status, duration, []))
             continue
         
         # Check if outputs already exist (skip unless --force)
         if not force:
-            all_exist, missing = check_outputs_exist(expected_outputs, project_root)
+            all_exist, missing = check_outputs_exist(expected_outputs)
             if all_exist:
                 duration = time.time() - step_start
-                logger.log(f"  STATUS: SKIPPED (outputs already exist)")
-                logger.log(f"  Existing files: {len(expected_outputs)}")
-                results.append((step_name, "SKIPPED (exists)", duration))
+                status = "SKIPPED (outputs exist)"
+                logger.console(f"  → {status}")
+                logger._log_to_file("")
+                logger._log_to_file(f"STEP: {step_name}")
+                logger._log_to_file(f"Status: {status}")
+                logger._log_to_file(f"Existing outputs: {len(expected_outputs)} files")
+                results.append((step_name, status, duration, []))
                 continue
         
         # Run the module
-        logger.log(f"  Running...")
-        success, output = run_module(module, logger)
+        logger.console(f"  → Running...")
+        success, stdout, stderr = run_module(module, logger)
+        
+        # Log full output (not truncated)
+        logger.log_step_output(stdout, stderr)
+        
         duration = time.time() - step_start
+        end_time = logger.timestamp()
         
         if success:
-            logger.log(f"  STATUS: SUCCESS ({duration:.1f}s)")
-            
             # Verify outputs were created
-            all_exist, missing = check_outputs_exist(expected_outputs, project_root)
+            all_exist, missing = check_outputs_exist(expected_outputs)
+            
             if all_exist:
-                logger.log(f"  Verified: {len(expected_outputs)} output files created")
+                status = "SUCCESS"
+                logger.console(f"  → {status} ({duration:.1f}s) - {len(expected_outputs)} outputs verified")
             else:
-                logger.log(f"  WARNING: Missing outputs: {missing}")
+                status = "SUCCESS (with warnings)"
+                logger.console(f"  → {status} ({duration:.1f}s) - {len(missing)} outputs missing")
+                all_missing_outputs.extend(missing)
             
-            results.append((step_name, "SUCCESS", duration))
+            logger.log_step_end(status, duration, end_time)
+            if missing:
+                logger.log_missing_outputs(missing)
+            
+            results.append((step_name, status, duration, missing))
         else:
-            logger.log(f"  STATUS: FAILED ({duration:.1f}s)")
-            logger.log(f"  Error output:")
-            for line in output.split('\n')[:20]:  # Limit error output
-                logger.log(f"    {line}")
+            status = "FAILED"
+            logger.console(f"  → {status} ({duration:.1f}s)")
+            logger.log_step_end(status, duration, end_time)
             
-            results.append((step_name, "FAILED", duration))
+            results.append((step_name, status, duration, []))
             
             # Stop pipeline on failure
-            logger.log("")
-            logger.log("=" * 70)
-            logger.log(f"⚠ PIPELINE STOPPED: {step_name} failed")
-            logger.log("=" * 70)
+            logger.console("")
+            logger.console(f"⚠ PIPELINE STOPPED: {step_name} failed")
+            logger._log_to_file("")
+            logger._log_to_file(f"PIPELINE STOPPED: {step_name} failed")
             break
     
     # Pipeline summary
     pipeline_duration = time.time() - pipeline_start
     
-    logger.log("")
-    logger.log("=" * 70)
-    logger.log("PIPELINE SUMMARY")
-    logger.log("=" * 70)
-    logger.log(f"Finished at: {logger.timestamp()}")
-    logger.log(f"Total duration: {pipeline_duration:.1f}s ({pipeline_duration/60:.1f} min)")
-    logger.log("")
-    logger.log(f"{'Step':<45} {'Status':<20} {'Time':<10}")
-    logger.log("-" * 70)
+    # Count results
+    success_count = sum(1 for _, s, _, _ in results if s == "SUCCESS" or s == "SUCCESS (with warnings)")
+    skipped_count = sum(1 for _, s, _, _ in results if "SKIPPED" in s)
+    failed_count = sum(1 for _, s, _, _ in results if s == "FAILED")
     
-    success_count = 0
-    skipped_count = 0
-    failed_count = 0
+    # Console summary
+    logger.console("")
+    logger.console("=" * 70)
+    logger.console("PIPELINE SUMMARY")
+    logger.console("=" * 70)
+    logger.console(f"Finished: {logger.timestamp()}")
+    logger.console(f"Duration: {pipeline_duration:.1f}s ({pipeline_duration/60:.1f} min)")
+    logger.console("")
+    logger.console(f"{'Step':<45} {'Status':<22} {'Time'}")
+    logger.console("-" * 70)
     
-    for step_name, status, duration in results:
+    for step_name, status, duration, _ in results:
         short_name = step_name[:43] if len(step_name) > 43 else step_name
-        logger.log(f"{short_name:<45} {status:<20} {duration:.1f}s")
-        
-        if "SUCCESS" in status:
-            success_count += 1
-        elif "SKIPPED" in status:
-            skipped_count += 1
-        else:
-            failed_count += 1
+        short_status = status[:20] if len(status) > 20 else status
+        logger.console(f"{short_name:<45} {short_status:<22} {duration:.1f}s")
     
-    logger.log("-" * 70)
-    logger.log(f"Total: {success_count} succeeded, {skipped_count} skipped, {failed_count} failed")
-    logger.log("")
+    logger.console("-" * 70)
+    logger.console(f"Total: {success_count} succeeded, {skipped_count} skipped, {failed_count} failed")
+    
+    # Log summary
+    logger._log_to_file("")
+    logger._log_to_file("=" * 80)
+    logger._log_to_file("PIPELINE SUMMARY")
+    logger._log_to_file("=" * 80)
+    logger._log_to_file(f"Finished: {logger.timestamp()}")
+    logger._log_to_file(f"Total duration: {pipeline_duration:.2f} seconds")
+    logger._log_to_file("")
+    logger._log_to_file(f"{'Step':<50} {'Status':<25} {'Duration'}")
+    logger._log_to_file("-" * 80)
+    
+    for step_name, status, duration, _ in results:
+        logger._log_to_file(f"{step_name:<50} {status:<25} {duration:.2f}s")
+    
+    logger._log_to_file("-" * 80)
+    logger._log_to_file(f"Succeeded: {success_count}")
+    logger._log_to_file(f"Skipped: {skipped_count}")
+    logger._log_to_file(f"Failed: {failed_count}")
+    
+    # Log any missing outputs
+    if all_missing_outputs:
+        logger._log_to_file("")
+        logger._log_to_file("=" * 80)
+        logger._log_to_file("MISSING OUTPUT FILES")
+        logger._log_to_file("=" * 80)
+        for path in all_missing_outputs:
+            logger._log_to_file(f"  - {path}")
     
     # Final status
+    logger.console("")
     if failed_count == 0:
-        logger.log("=" * 70)
-        logger.log("✓ PIPELINE COMPLETED SUCCESSFULLY")
-        logger.log("=" * 70)
-        logger.log("")
-        logger.log("Output locations:")
-        logger.log("  Processed data: outputs/processed/")
-        logger.log("  Figures:        outputs/figures/")
-        logger.log("  Reports:        outputs/reports/")
+        logger.console("=" * 70)
+        logger.console("✓ PIPELINE COMPLETED SUCCESSFULLY")
+        logger.console("=" * 70)
+        logger._log_to_file("")
+        logger._log_to_file("FINAL STATUS: SUCCESS")
         exit_code = 0
     else:
-        logger.log("=" * 70)
-        logger.log("✗ PIPELINE FAILED")
-        logger.log("=" * 70)
+        logger.console("=" * 70)
+        logger.console("✗ PIPELINE FAILED")
+        logger.console("=" * 70)
+        logger._log_to_file("")
+        logger._log_to_file("FINAL STATUS: FAILED")
         exit_code = 1
     
     # Save log
-    logger.save()
-    print(f"\nLog saved to: {log_path}")
+    log_path = logger.save()
+    logger.console("")
+    logger.console(f"Log saved: {log_path}")
     
     return exit_code
 
