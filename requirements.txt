@@ -1,11 +1,12 @@
 # HW5 NLP Pipeline - Requirements
-# Install with: pip install -r requirements.txt
+# Install: pip install -r requirements.txt
+# Then: python -m spacy download en_core_web_sm
 
 # Core data processing
-numpy>=1.24.0
 pandas>=2.0.0
+numpy>=1.24.0
 
-# NLP - spaCy
+# NLP
 spacy>=3.7.0
 
 # Coreference resolution
@@ -14,7 +15,7 @@ fastcoref>=0.2.0
 # Sentence embeddings
 sentence-transformers>=2.2.0
 
-# Deep learning backend (required for sentence-transformers and fastcoref)
+# Deep learning (required by sentence-transformers and fastcoref)
 torch>=2.0.0
 transformers>=4.30.0
 
@@ -26,7 +27,6 @@ umap-learn>=0.5.0
 
 # Visualization
 matplotlib>=3.7.0
-seaborn>=0.12.0
 
 # Statistical testing
 scipy>=1.11.0
@@ -34,6 +34,3 @@ scipy>=1.11.0
 # Utilities
 tqdm>=4.65.0
 tabulate>=0.9.0
-
-# Note: After installing, download spaCy model:
-# python -m spacy download en_core_web_sm
