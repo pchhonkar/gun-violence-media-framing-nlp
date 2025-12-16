@@ -2,20 +2,20 @@
 End-to-end pipeline runner for HW5 NLP.
 
 Executes all pipeline steps in order:
-1. load_articles        → articles_master.csv
-2. coref_contexts       → contexts_victims.jsonl, contexts_shooters.jsonl
-3. extract_descriptions → descriptions.csv, descriptions_raw.csv
-4. embed_cluster        → descriptions_with_clusters.csv, cluster_summary.csv
-5. manual_eval_helpers  → cluster_refinement_map.json, descriptions_with_clusters_refined.csv
-6. task5_frequency_analysis → frequency/proportion tables
-7. task6_chi_square     → chi_square_results.csv
+  Task 1a: load_articles
+  Task 1b: coref_contexts
+  Task 2:  extract_descriptions
+  Task 3:  embed_cluster
+  Task 4:  manual_eval_helpers (skippable)
+  Task 5:  task5_frequency_analysis
+  Task 6:  task6_chi_square
 
 Usage:
     python -m src.run_all
     python -m src.run_all --force        # Re-run all steps even if outputs exist
     python -m src.run_all --skip-task4   # Skip manual refinement step
 
-Saves timestamped log to outputs/reports/run_all_log_YYYYMMDD_HHMMSS.txt
+Saves timestamped log to: outputs/reports/run_all_log_YYYYMMDD_HHMMSS.txt
 """
 
 import argparse
@@ -24,11 +24,15 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple, Optional, Dict, Any
+from typing import List, Tuple, Dict, Any
+
+# Determine project root (parent of src/)
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 # Import config for paths
+sys.path.insert(0, str(PROJECT_ROOT))
 try:
-    from . import config
+    from src import config
 except ImportError:
     import config
 
@@ -130,13 +134,15 @@ class PipelineLogger:
     """Logger that writes to both console (short) and file (full)."""
     
     def __init__(self):
+        # Ensure output directories exist BEFORE using config paths
+        config.ensure_output_dirs()
+        
         # Create timestamped log file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.log_filename = f"run_all_log_{timestamp}.txt"
         self.log_path = config.REPORTS_DIR / self.log_filename
-        self.log_path.parent.mkdir(parents=True, exist_ok=True)
         
-        # Initialize log file
+        # Initialize log buffer
         self.log_buffer: List[str] = []
         self._write_header()
     
@@ -147,9 +153,10 @@ class PipelineLogger:
         self._log_to_file("=" * 80)
         self._log_to_file(f"Log file: {self.log_path}")
         self._log_to_file(f"Created: {self.timestamp()}")
-        self._log_to_file(f"Python: {sys.executable}")
-        self._log_to_file(f"Version: {sys.version}")
-        self._log_to_file(f"Working directory: {Path.cwd()}")
+        self._log_to_file(f"Project root: {PROJECT_ROOT}")
+        self._log_to_file(f"Current working directory: {Path.cwd()}")
+        self._log_to_file(f"Python executable: {sys.executable}")
+        self._log_to_file(f"Python version: {sys.version}")
         self._log_to_file("=" * 80)
         self._log_to_file("")
     
@@ -179,11 +186,12 @@ class PipelineLogger:
         self._log_to_file("-" * 80)
         self._log_to_file(f"Module: {module}")
         self._log_to_file(f"Command: {' '.join(command)}")
+        self._log_to_file(f"Working directory: {PROJECT_ROOT}")
         self._log_to_file(f"Start time: {self.timestamp()}")
         self._log_to_file("")
     
     def log_step_output(self, stdout: str, stderr: str):
-        """Log full stdout and stderr (not truncated)."""
+        """Log full stdout and stderr (NOT truncated)."""
         if stdout:
             self._log_to_file("--- STDOUT ---")
             self._log_to_file(stdout)
@@ -232,15 +240,15 @@ def check_outputs_exist(expected_outputs: List[Path]) -> Tuple[bool, List[Path]]
     for path in expected_outputs:
         if not path.exists():
             missing.append(path)
-    
     return len(missing) == 0, missing
 
 
-def run_module(module: str, logger: PipelineLogger) -> Tuple[bool, str, str]:
+def run_module(step_name: str, module: str, logger: PipelineLogger) -> Tuple[bool, str, str]:
     """
-    Run a Python module using subprocess.
+    Run a Python module using subprocess from PROJECT_ROOT.
     
     Args:
+        step_name: Human-readable step name
         module: Module name (e.g., "src.load_articles")
         logger: Logger instance
     
@@ -248,14 +256,15 @@ def run_module(module: str, logger: PipelineLogger) -> Tuple[bool, str, str]:
         Tuple of (success, stdout, stderr)
     """
     cmd = [sys.executable, "-m", module]
-    logger.log_step_start(module, module, cmd)
+    logger.log_step_start(step_name, module, cmd)
     
     try:
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            check=True
+            check=True,
+            cwd=PROJECT_ROOT  # Always run from project root
         )
         return True, result.stdout, result.stderr
     except subprocess.CalledProcessError as e:
@@ -279,11 +288,8 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
     Returns:
         Exit code (0 for success, 1 for failure)
     """
-    # Setup
+    # Setup logger (also ensures output dirs exist)
     logger = PipelineLogger()
-    
-    # Ensure output directories exist
-    config.ensure_output_dirs()
     
     # Console header
     logger.console("")
@@ -291,6 +297,7 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
     logger.console("HW5 NLP PIPELINE - FULL EXECUTION")
     logger.console("=" * 70)
     logger.console(f"Started: {logger.timestamp()}")
+    logger.console(f"Project root: {PROJECT_ROOT}")
     logger.console(f"Options: force={force}, skip_task4={skip_task4}")
     logger.console(f"Log file: {logger.log_path}")
     logger.console("=" * 70)
@@ -347,9 +354,9 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
         
         # Run the module
         logger.console(f"  → Running...")
-        success, stdout, stderr = run_module(module, logger)
+        success, stdout, stderr = run_module(step_name, module, logger)
         
-        # Log full output (not truncated)
+        # Log full output (NOT truncated)
         logger.log_step_output(stdout, stderr)
         
         duration = time.time() - step_start
@@ -365,6 +372,8 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
             else:
                 status = "SUCCESS (with warnings)"
                 logger.console(f"  → {status} ({duration:.1f}s) - {len(missing)} outputs missing")
+                for m in missing:
+                    logger.console(f"      Missing: {m.name}")
                 all_missing_outputs.extend(missing)
             
             logger.log_step_end(status, duration, end_time)
@@ -375,6 +384,10 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
         else:
             status = "FAILED"
             logger.console(f"  → {status} ({duration:.1f}s)")
+            # Print first few lines of error to console
+            if stderr:
+                for line in stderr.strip().split('\n')[:5]:
+                    logger.console(f"      {line}")
             logger.log_step_end(status, duration, end_time)
             
             results.append((step_name, status, duration, []))
@@ -390,7 +403,7 @@ def run_pipeline(force: bool = False, skip_task4: bool = False) -> int:
     pipeline_duration = time.time() - pipeline_start
     
     # Count results
-    success_count = sum(1 for _, s, _, _ in results if s == "SUCCESS" or s == "SUCCESS (with warnings)")
+    success_count = sum(1 for _, s, _, _ in results if "SUCCESS" in s)
     skipped_count = sum(1 for _, s, _, _ in results if "SKIPPED" in s)
     failed_count = sum(1 for _, s, _, _ in results if s == "FAILED")
     
