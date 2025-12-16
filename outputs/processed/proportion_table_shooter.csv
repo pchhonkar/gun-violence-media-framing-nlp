@@ -1,0 +1,10 @@
+cluster_label_refined,CNN,Fox,NYT,WSJ
+Shooter identity labels,48.28,14.81,47.17,39.71
+Noise/Unclustered,22.41,22.22,20.75,26.47
+Harm severity,12.93,20.99,9.43,14.71
+Active threat framing,5.17,8.64,3.77,13.24
+Alleged/suspected shooter framing,2.59,22.22,0.0,0.0
+Action descriptions,1.72,8.64,5.66,1.47
+Child victim harm framing,3.45,0.0,9.43,0.0
+Weapon references,3.45,1.23,0.0,1.47
+Cluster 10: armed,0.0,1.23,3.77,2.94
