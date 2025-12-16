@@ -1,31 +1,29 @@
 entity_type,cluster_id,cluster_label,size,examples
-victim,-1,Noise/Unclustered,69,killed teacher; stealing children; fatally shot suspect; Uvalde Memorial Hospital; mourns tragedy; received children; the hospital; Uvalde Memorial Hospital; Uvalde Memorial Hospital spokesperson Tom Nordwick; was killed by enforcement
-victim,0,Cluster 0: family,4,Relatives family member; Relatives family member; a family member; a family member
-victim,1,Cluster 1: victims,20,the victims; the victims; the victims; identify victims; the victims; the victims; the victims; deceased victims; The deceased victims; the victims
-victim,2,Harm severity,17,killing students; killing students; killing students; killing students; killing students; killing students; lost students; dead students; the 19 dead students; killed students
-victim,3,Age references,87,14 students; 14 students; 19 children; 26 children; 19 children; Nineteen children; 19 children; 20 children; 19 children; 19 children
-victim,4,Cluster 4: teachers,59,one teacher; two teachers; two teachers; two teachers; two teachers; two teachers; two teachers; two teachers; two teachers; a teacher
-victim,5,Action descriptions,57,the deadly shooting; deadliest school shooting; the second-deadliest school shooting; the deadly shooting; a deadly act; deadliest shooting; the deadliest shooting; Tuesday's deadly shooting; a mass school shooting; a mass school shooting
+victim,-1,Noise/Unclustered,65,killed teacher; Uvalde Memorial Hospital; mourns tragedy; received children; the hospital; Uvalde Memorial Hospital; Uvalde Memorial Hospital spokesperson Tom Nordwick; was killed by enforcement; was killed by enforcement; Tuesday's tragic event
+victim,0,Cluster 0: family,3,their family member; their family member; a family member
+victim,1,Cluster 1: victims,19,the victims; the victims; the victims; identify victims; the victims; the victims; the victims; deceased victims; The deceased victims; the victims
+victim,2,Harm severity,13,killing students; killing students; killing students; killing students; killing students; killing students; lost students; dead students; the 19 dead students; killed students
+victim,3,Age references,76,14 students; 19 children; 26 children; 19 children; Nineteen children; 19 children; 20 children; 19 children; 19 children; 19 children
+victim,4,Cluster 4: teachers,51,one teacher; a teacher; two teachers; two teachers; two teachers; two teachers; two teachers; a teacher; one teacher; two teachers
+victim,5,Action descriptions,55,the deadly shooting; deadliest school shooting; the second-deadliest school shooting; a deadly act; deadliest shooting; the deadliest shooting; Tuesday's deadly shooting; a mass school shooting; a mass school shooting; the school shooting
 victim,6,Age references,4,fatally shot children; fatally shot children; fatally shot children; fatally shot children
-victim,7,Harm severity,32,were killed; died; died; were killed; was killed; were killed; were killed; was killed by; died; KILLED
-victim,8,Age references,19,killing children; killed kids; killed kids; killed kids; killed kids; killing children; killed children; killing19 children; ultimately killing19 children; killed children
-victim,9,Cluster 9: student,7,local school student; a local high school student; a student; old student; a public school students; former student; a former student
+victim,7,Harm severity,31,were killed; died; died; were killed; was killed; were killed; were killed; was killed by; died; KILLED
+victim,8,Age references,16,killing children; killed kids; killing children; killed children; killing19 children; ultimately killing19 children; killed children; killed children; killed children; killing children
+victim,9,Cluster 9: student,6,local school student; a local high school student; a student; old student; former student; a former student
 victim,10,Age references,8,left children; left children; has left children; has left children; left children; left children; left children; left children
 victim,11,Cluster 11: tragedy,5,the tragedy; another tragedy; the tragedy; the tragedy; the tragedy
 victim,12,Harm severity,3,injured people; injured others; injured
 victim,13,Harm severity,3,ONE ADULT KILLED; ONE ADULT KILLED; ONE ADULT KILLED
-victim,14,Age references,4,a child; has child envisions; a child envisions; a child
-victim,15,Cluster 15: sandy,3,a Sandy Hook victim; a Sandy Hook victim; a Sandy Hook victim
-shooter,-1,Noise/Unclustered,42,fatally shooting Wilson; The heinous attack; high-powered firearms; purchased guns; the shooting offer; murdered people; rushed gunman; was armed; was shot; had ahandgun
-shooter,0,Action descriptions,7,opened fire; opened fire; opened fire; opened fire; opened fire; opened fire; opened fire
-shooter,1,Cluster 1: gunman,200,a gunman; alleged shooter; The alleged shooter; the gunman; The suspected shooter; old gunman; An 18-year-old gunman; old gunman; old gunman intentions; the 18-year-old gunman
+victim,14,Age references,3,a child; has child envisions; a child envisions
+shooter,-1,Noise/Unclustered,43,fatally shooting Wilson; The heinous attack; high-powered firearms; the shooting offer; murdered people; shot grandmother; was shot; a racially motivedattack; Tuesday'smass shooting; is accused
+shooter,0,Action descriptions,6,opened fire; opened fire; opened fire; opened fire; opened fire; opened fire
+shooter,1,Cluster 1: gunman,151,a gunman; alleged shooter; The alleged shooter; the gunman; The suspected shooter; old gunman; An 18-year-old gunman; old gunman; the 18-year-old gunman; the gunman
 shooter,2,Age references,3,fatally shot children; fatally shot children; fatally shot children
-shooter,3,Harm severity,17,was killed; was killed; was killed; was killed; was killed; was killed; was killed; was killed; was killed by; KILLED
-shooter,4,Harm severity,6,was killed by officers; was killed by officers; was killed by enforcement; was killed by officers; was killed by enforcement; was killed by enforcement
-shooter,5,Age references,9,killed kids; killed kids; killed kids; killed kids; killed children; killed children; killed children; killed children; killed children
-shooter,6,Weapon references,6,two assault rifles; an assault rifle; a rifle; a long rifle; two AR-platform rifles; the rifle
-shooter,7,Age references,6,"shooter old Salvador Ramos; the shooter, 18-year-old Salvador Ramos; to have shot shooter Salvador Ramos; shooter old Salvador Ramos; the shooter, 18-year-old Salvador Ramos; now-deceased suspect Salvador Ramos"
+shooter,3,Age references,6,killed kids; killed children; killed children; killed children; killed children; killed children
+shooter,4,Weapon references,4,two assault rifles; an assault rifle; two AR-platform rifles; the rifle
+shooter,5,Harm severity,13,was killed; was killed; was killed; was killed; was killed; was killed by; KILLED; has been killed; was killed; was killed
+shooter,6,Age references,3,"shooter old Salvador Ramos; the shooter, 18-year-old Salvador Ramos; now-deceased suspect Salvador Ramos"
+shooter,7,Harm severity,3,was killed by enforcement; was killed by enforcement; was killed by enforcement
 shooter,8,Action descriptions,7,TEXAS SCHOOL SHOOTING; TEXAS SCHOOL SHOOTING; TEXAS SCHOOL SHOOTING; TEXAS SCHOOL SHOOTING; THE TEXAS SCHOOL SHOOTER; the deadly school shooting; the deadliest American school shooting
 shooter,9,Harm severity,4,ONE ADULT KILLED; ADULT KILLED DEAD; ONE ADULT KILLED; ONE ADULT KILLED
 shooter,10,Cluster 10: armed,5,an armed resource officer; an armed school security officer; an armed school security officer; an armed security guard; an armed security guard
-shooter,11,Harm severity,6,killed students; killed students; killed students intention; killed students; killed students grandmother; killed students

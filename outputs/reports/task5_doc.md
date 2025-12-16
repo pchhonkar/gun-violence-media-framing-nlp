@@ -12,9 +12,9 @@ splitting/merging of clusters to improve semantic coherence.
 ## Data Source
 
 - **Input**: `outputs/processed/descriptions_with_clusters_refined.csv`
-- **Total descriptions**: 719
-- **Victim descriptions**: 401
-- **Shooter descriptions**: 318
+- **Total descriptions**: 609
+- **Victim descriptions**: 361
+- **Shooter descriptions**: 248
 
 ## Methodology
 
@@ -39,29 +39,29 @@ what percentage fall into each cluster?"
 ## Top Clusters
 
 ### Victim Clusters (by total count)
-| cluster_label_refined      |   Total |
+| refined_cluster_label      |   Total |
 |:---------------------------|--------:|
-| Victim age & count framing |     134 |
-| Noise/Unclustered          |      67 |
-| Action descriptions        |      57 |
-| Harm severity              |      55 |
-| Child victim harm framing  |      29 |
+| Victim age & count framing |     116 |
+| Noise/Unclustered          |      59 |
+| Action descriptions        |      55 |
+| Harm severity              |      50 |
+| Child victim harm framing  |      28 |
 
 ### Shooter Clusters (by total count)
-| cluster_label_refined             |   Total |
+| refined_cluster_label             |   Total |
 |:----------------------------------|--------:|
-| Shooter identity labels           |     120 |
-| Noise/Unclustered                 |      73 |
-| Harm severity                     |      47 |
+| Shooter identity labels           |      87 |
+| Noise/Unclustered                 |      59 |
+| Harm severity                     |      29 |
 | Active threat framing             |      24 |
-| Alleged/suspected shooter framing |      21 |
+| Alleged/suspected shooter framing |      17 |
 
 ## Cross-Outlet Observations
 
-- **Victim age & count framing**: WSJ (45.6%) uses this more than Fox (28.7%)
-- **Child victim harm framing**: Ranges from 2.5% (WSJ) to 12.3% (CNN)
-- **Shooter identity labels**: CNN (48.3%) vs Fox (14.8%) - significant variation
-- **Legal hedging (Alleged/suspected)**: Fox leads with 22.2%
+- **Victim age & count framing**: WSJ (44.1%) uses this more than Fox (28.3%)
+- **Child victim harm framing**: Ranges from 2.9% (WSJ) to 10.3% (CNN)
+- **Shooter identity labels**: CNN (50.0%) vs Fox (14.7%) - significant variation
+- **Legal hedging (Alleged/suspected)**: Fox leads with 17.3%
 
 ## Files Generated
 

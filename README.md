@@ -1,6 +1,18 @@
 # Comparative Analysis of Gun Violence Coverage Across News Outlets
 
+**NLP Homework 5 - Final Submission**
+
 This project analyzes how four major U.S. news outlets (CNN, Fox News, NYT, WSJ) frame **victims** and **shooters** in mass shooting coverage. Using 100 articles, we extract victim/shooter contexts via coreference resolution, extract descriptive phrases using dependency parsing, cluster descriptions with SBERT embeddings and DBSCAN, apply manual refinement, compute cross-outlet frequency/proportion tables, and run chi-squared hypothesis tests to identify statistically significant framing differences.
+
+---
+
+## Key Findings
+
+| Finding | Details |
+|---------|---------|
+| **Significant difference in shooter framing** | CNN significantly overuses "Shooter identity labels" (χ² = 23.43, p < 0.001), while Fox underuses this framing |
+| **Harm severity framing varies** | Fox significantly overuses "Harm severity" framing for shooters (χ² = 12.58, p = 0.006), while NYT underuses it |
+| **Victim framing is consistent** | No statistically significant differences found in victim framing across outlets |
 
 ---
 
@@ -57,7 +69,7 @@ python -m spacy download en_core_web_sm
 ### Sanity Check
 
 ```bash
-python -c "import spacy, pandas, sentence_transformers, sklearn, scipy, matplotlib, tabulate; print('All imports OK')"
+python -c "import spacy, pandas, sentence_transformers, sklearn, scipy, matplotlib; print('All imports OK')"
 ```
 
 ---
@@ -91,6 +103,20 @@ python -m src.task6_chi_square
 
 ---
 
+## Pipeline Summary
+
+| Task | Description | Key Output |
+|------|-------------|------------|
+| **1a** | Load 100 articles (25 per outlet) | `articles_master.csv` |
+| **1b** | Coreference resolution & context extraction | `contexts_victims.jsonl`, `contexts_shooters.jsonl` |
+| **2** | Extract descriptive phrases (609 total) | `descriptions.csv` |
+| **3** | SBERT embedding + DBSCAN clustering | `descriptions_with_clusters.csv` |
+| **4** | Manual evaluation & refinement (15 refined clusters) | `descriptions_with_clusters_refined.csv` |
+| **5** | Frequency & proportion analysis | Frequency tables + heatmaps |
+| **6** | Chi-squared hypothesis testing (2/6 significant) | `task6_chi_square_results.csv` |
+
+---
+
 ## Output Files
 
 ### Task 1: Article Loading & Coreference
@@ -107,7 +133,7 @@ python -m src.task6_chi_square
 | File | Description |
 |------|-------------|
 | `outputs/processed/descriptions_raw.csv` | All extracted phrases (before filtering) |
-| `outputs/processed/descriptions.csv` | Filtered descriptions (719 rows) |
+| `outputs/processed/descriptions.csv` | Filtered descriptions (609 rows) |
 | `outputs/reports/task2_rationale.md` | Extraction methodology |
 
 ### Task 3: Embedding & Clustering
@@ -128,6 +154,7 @@ python -m src.task6_chi_square
 | `outputs/reports/task4_manual_eval.md` | Manual evaluation writeup |
 | `outputs/processed/cluster_refinement_map.json` | Refinement mapping rules |
 | `outputs/processed/descriptions_with_clusters_refined.csv` | Refined cluster labels |
+| `outputs/processed/cluster_summary_refined.csv` | Refined cluster summary |
 
 ### Task 5: Frequency Analysis
 
@@ -149,45 +176,49 @@ python -m src.task6_chi_square
 |------|-------------|
 | `outputs/processed/task6_chi_square_results.csv` | Chi-square test results (6 tests) |
 | `outputs/reports/task6_results.md` | Hypothesis testing report |
-| `outputs/figures/task6_observed_vs_expected_victim_1.png` | Observed vs Expected plot |
-| `outputs/figures/task6_observed_vs_expected_victim_2.png` | Observed vs Expected plot |
-| `outputs/figures/task6_observed_vs_expected_victim_3.png` | Observed vs Expected plot |
-| `outputs/figures/task6_observed_vs_expected_shooter_1.png` | Observed vs Expected plot |
-| `outputs/figures/task6_observed_vs_expected_shooter_2.png` | Observed vs Expected plot |
-| `outputs/figures/task6_observed_vs_expected_shooter_3.png` | Observed vs Expected plot |
-
----
-
-## Verification Checks
-
-After running the pipeline, verify correctness:
-
-```bash
-# Frequency table sums should match original counts (victim=401, shooter=318)
-python -c "
-import pandas as pd
-v = pd.read_csv('outputs/processed/frequency_table_victim.csv', index_col=0)
-s = pd.read_csv('outputs/processed/frequency_table_shooter.csv', index_col=0)
-print(f'Victim sum: {v[[\"CNN\",\"Fox\",\"NYT\",\"WSJ\"]].values.sum()}')  # Expected: 401
-print(f'Shooter sum: {s[[\"CNN\",\"Fox\",\"NYT\",\"WSJ\"]].values.sum()}')  # Expected: 318
-"
-
-# Proportion columns should sum to ~100%
-python -c "
-import pandas as pd
-p = pd.read_csv('outputs/processed/proportion_table_victim.csv', index_col=0)
-print('Column sums:', p.sum().round(1).to_dict())  # Each ~100
-"
-```
+| `outputs/figures/task6_observed_vs_expected_*.png` | Observed vs Expected plots (6 files) |
 
 ---
 
 ## Data Summary
 
-- **100 articles** (25 per outlet: CNN, Fox, NYT, WSJ)
-- **719 descriptions** extracted and clustered
-- **401 victim descriptions**, **318 shooter descriptions**
-- **Key finding**: "Shooter identity labels" shows significant cross-outlet variation (χ² = 25.72, p < 0.001)
+| Metric | Value |
+|--------|-------|
+| Total articles | 100 (25 per outlet) |
+| Total descriptions | 609 |
+| Victim descriptions | 361 |
+| Shooter descriptions | 248 |
+| Refined cluster labels | 15 |
+| Significant chi-square tests | 2/6 |
+
+---
+
+## Statistical Results (Task 6)
+
+| Entity | Cluster | χ² | df | p-value | Decision | Overuse | Underuse |
+|--------|---------|----|----|---------|----------|---------|----------|
+| shooter | Shooter identity labels | 23.43 | 3 | **0.00003** | Reject H₀ | CNN | Fox |
+| shooter | Harm severity | 12.58 | 3 | **0.0056** | Reject H₀ | Fox | NYT |
+| shooter | Active threat framing | 4.44 | 3 | 0.218 | Fail to reject | - | - |
+| victim | Victim age & count framing | 5.69 | 3 | 0.128 | Fail to reject | - | - |
+| victim | Action descriptions | 0.15 | 3 | 0.986 | Fail to reject | - | - |
+| victim | Harm severity | 0.85 | 3 | 0.836 | Fail to reject | - | - |
+
+---
+
+## Verification
+
+After running the pipeline, verify correctness:
+
+```bash
+python -c "
+import pandas as pd
+v = pd.read_csv('outputs/processed/frequency_table_victim.csv', index_col=0)
+s = pd.read_csv('outputs/processed/frequency_table_shooter.csv', index_col=0)
+print(f'Victim sum: {v[[\"CNN\",\"Fox\",\"NYT\",\"WSJ\"]].values.sum()}')  # Expected: 361
+print(f'Shooter sum: {s[[\"CNN\",\"Fox\",\"NYT\",\"WSJ\"]].values.sum()}')  # Expected: 248
+"
+```
 
 ---
 

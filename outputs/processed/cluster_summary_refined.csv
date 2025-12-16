@@ -1,23 +1,20 @@
 entity_type,refined_cluster_label,size,examples
-shooter,Shooter identity labels,120,a gunman; the gunman; old gunman; An 18-year-old gunman; old gunman; the 18-year-old gunman; the gunman; old gunman; the 18-year-old gunman; old gunman
-shooter,Noise/Unclustered,73,old gunman intentions; the 18-year-old gunman intentions; old gunman grandmother; the 18-year-old gunman grandmother; fatally shooting Wilson; many other mass shooters; The heinous attack; so many other mass shooters; high-powered firearms; purchased guns
-shooter,Harm severity,43,was killed; was killed by officers; was killed; was killed by officers; fatally shot suspect; was killed; was killed by enforcement; was killed; was killed; was killed by officers
+shooter,Shooter identity labels,87,a gunman; the gunman; old gunman; An 18-year-old gunman; old gunman; the 18-year-old gunman; the gunman; a gunman; old gunman; An 18-year-old gunman
+shooter,Noise/Unclustered,59,fatally shooting Wilson; many other mass shooters; The heinous attack; so many other mass shooters; high-powered firearms; the shooting offer; a shooting incident; murdered people; a shooting; shooter old Salvador Ramos
+shooter,Harm severity,29,was killed; was killed by enforcement; was killed; was killed; was killed by enforcement; ONE ADULT KILLED; was killed; was killed; was killed by; deceased suspect
 shooter,Active threat framing,24,"active shooter; an ""active shooter; active shooter; an ""active shooter; active shooter; an ""active shooter; active shooter incidents; 61 active shooter incidents; active shooter incidents; 52.5% more active shooter incidents"
-shooter,Alleged/suspected shooter framing,21,alleged shooter; The alleged shooter; The suspected shooter; the suspected gunman; identified suspect; the suspected gunman; is accused; identified suspect; SUSPECTED SHOOTER DEAD; suspected lone gunman
-shooter,Action descriptions,13,opened fire; opened fire; TEXAS SCHOOL SHOOTING; opened fire; opened fire; TEXAS SCHOOL SHOOTING; TEXAS SCHOOL SHOOTING; opened fire; TEXAS SCHOOL SHOOTING; the deadly school shooting
-shooter,Age references,12,fatally shot children; fatally shot children; killed kids; killed kids; killed kids; killed kids; fatally shot children; killed children; killed children; killed children
-shooter,Weapon references,6,two assault rifles; an assault rifle; a rifle; a long rifle; two AR-platform rifles; the rifle
+shooter,Alleged/suspected shooter framing,17,alleged shooter; The alleged shooter; The suspected shooter; the suspected gunman; identified suspect; is accused; identified suspect; SUSPECTED SHOOTER DEAD; suspected lone gunman; A suspected lone gunman
+shooter,Action descriptions,13,opened fire; opened fire; TEXAS SCHOOL SHOOTING; opened fire; TEXAS SCHOOL SHOOTING; TEXAS SCHOOL SHOOTING; opened fire; TEXAS SCHOOL SHOOTING; the deadly school shooting; opened fire
+shooter,Child victim harm framing,10,fatally shot children; fatally shot children; killed kids; fatally shot children; killed children; killed children chasm; killed children; killed children; killed children; killed children
 shooter,Cluster 10: armed,5,an armed resource officer; an armed school security officer; an armed school security officer; an armed security guard; an armed security guard
-shooter,Cluster 1: gunman,1,fatally shot people
-victim,Victim age & count framing,130,14 students; 14 students; 19 children; 26 children; 19 children; two teachers; Nineteen children; two teachers; 19 children; two teachers
-victim,Noise/Unclustered,64,killed teacher; stealing children; fatally shot suspect; Uvalde Memorial Hospital; mourns tragedy; received children; the hospital; Uvalde Memorial Hospital; Uvalde Memorial Hospital spokesperson Tom Nordwick; was killed by enforcement
-victim,Action descriptions,57,the deadly shooting; deadliest school shooting; the second-deadliest school shooting; the deadly shooting; a deadly act; deadliest shooting; the deadliest shooting; Tuesday's deadly shooting; a mass school shooting; a mass school shooting
-victim,Harm severity,55,killing students; were killed; injured people; injured others; died; killing students; died; were killed; was killed; killing students
-victim,Child victim harm framing,31,fatally shot children; killing children; fatally shot children; killed kids; killed kids; killed kids; killed kids; left children; killing children; left children
-victim,Cluster 1: victims,20,the victims; the victims; the victims; identify victims; the victims; the victims; the victims; deceased victims; The deceased victims; the victims
-victim,Cluster 4: teachers,20,one teacher; a teacher; one teacher; one teacher; one teacher; a teacher; one teacher; the teachers; These teachers; your teachers
-victim,Cluster 9: student,7,local school student; a local high school student; a student; old student; a public school students; former student; a former student
+shooter,Weapon references,4,two assault rifles; an assault rifle; two AR-platform rifles; the rifle
+victim,Victim age & count framing,116,14 students; 19 children; 26 children; 19 children; two teachers; Nineteen children; two teachers; 19 children; two teachers; 20 children
+victim,Noise/Unclustered,59,killed teacher; Uvalde Memorial Hospital; mourns tragedy; received children; the hospital; Uvalde Memorial Hospital; Uvalde Memorial Hospital spokesperson Tom Nordwick; was killed by enforcement; was killed by enforcement; Tuesday's tragic event
+victim,Action descriptions,55,the deadly shooting; deadliest school shooting; the second-deadliest school shooting; a deadly act; deadliest shooting; the deadliest shooting; Tuesday's deadly shooting; a mass school shooting; a mass school shooting; the school shooting
+victim,Harm severity,50,killing students; were killed; injured people; injured others; died; killing students; died; were killed; was killed; killing students
+victim,Child victim harm framing,28,fatally shot children; killing children; fatally shot children; killed kids; left children; killing children; left children; fatally shot children; has left children; has left children
+victim,Cluster 4: teachers,20,one teacher; a teacher; a teacher; one teacher; one teacher; one teacher; a teacher; one teacher; the teachers; These teachers
+victim,Cluster 1: victims,19,the victims; the victims; the victims; identify victims; the victims; the victims; the victims; deceased victims; The deceased victims; the victims
+victim,Cluster 9: student,6,local school student; a local high school student; a student; old student; former student; a former student
 victim,Cluster 11: tragedy,5,the tragedy; another tragedy; the tragedy; the tragedy; the tragedy
-victim,Age references,5,children old; has child envisions; more children; Ultimately 19 children; the 19 children
-victim,Cluster 0: family,4,Relatives family member; Relatives family member; a family member; a family member
-victim,Cluster 15: sandy,3,a Sandy Hook victim; a Sandy Hook victim; a Sandy Hook victim
+victim,Cluster 0: family,3,their family member; their family member; a family member

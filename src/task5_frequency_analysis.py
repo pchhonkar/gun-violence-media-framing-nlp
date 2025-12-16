@@ -62,14 +62,14 @@ def build_frequency_table(df: pd.DataFrame, entity_type: str) -> pd.DataFrame:
         entity_type: 'victim' or 'shooter'
     
     Returns:
-        DataFrame with rows=cluster_label_refined, columns=outlets + Total
+        DataFrame with rows=refined_cluster_label, columns=outlets + Total
     """
     # STEP 1: Filter by entity_type FIRST
     entity_df = df[df['entity_type'] == entity_type].copy()
     
     # STEP 2: Create crosstab (each row counted exactly once)
     freq_table = pd.crosstab(
-        index=entity_df['cluster_label_refined'],
+        index=entity_df['refined_cluster_label'],
         columns=entity_df['outlet']
     )
     

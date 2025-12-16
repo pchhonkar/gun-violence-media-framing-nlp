@@ -1,12 +1,11 @@
-cluster_label_refined,CNN,Fox,NYT,WSJ
-Victim age & count framing,31.13,28.71,31.3,45.57
-Noise/Unclustered,15.09,23.76,16.52,10.13
-Action descriptions,15.09,13.86,13.91,13.92
-Harm severity,12.26,11.88,13.91,17.72
-Child victim harm framing,12.26,5.94,6.96,2.53
-Cluster 1: victims,4.72,5.94,4.35,5.06
-Cluster 4: teachers,2.83,5.94,7.83,2.53
-Cluster 9: student,1.89,1.98,0.87,2.53
-Cluster 11: tragedy,2.83,0.0,1.74,0.0
-Cluster 0: family,1.89,1.98,0.0,0.0
-Cluster 15: sandy,0.0,0.0,2.61,0.0
+refined_cluster_label,CNN,Fox,NYT,WSJ
+Victim age & count framing,30.93,28.28,28.87,44.12
+Noise/Unclustered,13.4,22.22,16.49,11.76
+Action descriptions,15.46,14.14,15.46,16.18
+Harm severity,13.4,12.12,16.49,13.24
+Child victim harm framing,10.31,8.08,8.25,2.94
+Cluster 4: teachers,4.12,6.06,8.25,2.94
+Cluster 1: victims,5.15,6.06,4.12,5.88
+Cluster 9: student,2.06,2.02,0.0,2.94
+Cluster 11: tragedy,3.09,0.0,2.06,0.0
+Cluster 0: family,2.06,1.01,0.0,0.0
