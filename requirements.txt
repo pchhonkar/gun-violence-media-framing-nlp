@@ -1,36 +1,57 @@
 # HW5 NLP Pipeline - Requirements
 # Install: pip install -r requirements.txt
-# Then: python -m spacy download en_core_web_sm
+# Then run: python -m spacy download en_core_web_sm
 
-# Core data processing
+# =============================================================================
+# Core Data Processing
+# =============================================================================
 pandas>=2.0.0
 numpy>=1.24.0
 
+# =============================================================================
 # NLP
+# =============================================================================
 spacy>=3.7.0
 
 # Coreference resolution
 fastcoref>=0.2.0
 
-# Sentence embeddings
+# =============================================================================
+# Sentence Embeddings & Deep Learning
+# =============================================================================
 sentence-transformers>=2.2.0
-
-# Deep learning (required by sentence-transformers and fastcoref)
 torch>=2.0.0
 transformers>=4.30.0
 
-# Clustering and ML
+# =============================================================================
+# Machine Learning & Clustering
+# =============================================================================
 scikit-learn>=1.3.0
 
-# Dimensionality reduction
+# Dimensionality reduction (UMAP)
 umap-learn>=0.5.0
 
+# =============================================================================
 # Visualization
+# =============================================================================
 matplotlib>=3.7.0
+seaborn>=0.12.0
 
-# Statistical testing
+# =============================================================================
+# Statistical Testing
+# =============================================================================
 scipy>=1.11.0
 
+# =============================================================================
 # Utilities
+# =============================================================================
 tqdm>=4.65.0
+
+# Required for pandas DataFrame.to_markdown() in Task 5 documentation
 tabulate>=0.9.0
+
+# =============================================================================
+# Optional: Transformer-based spaCy model
+# =============================================================================
+# Uncomment if using en_core_web_trf:
+# spacy-transformers>=1.3.0
